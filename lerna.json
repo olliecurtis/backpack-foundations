@@ -7,8 +7,7 @@
     "bootstrap": {
     },
     "publish": {
-      "ignoreChanges": ["package-lock.json"],
-      "allowBranch": "main"
+      "ignoreChanges": ["package-lock.json"]
     }
   }
 }
