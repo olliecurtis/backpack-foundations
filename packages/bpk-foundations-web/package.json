@@ -1,5 +1,5 @@
 {
-  "name": "@skyscanner/bpk-foundations-web",
+  "name": "@olliecurt/bpk-foundations-web",
   "version": "1.0.0",
   "description": "Common Backpack design tokens for colors, spacing, font, etc.",
   "license": "Apache-2.0",
