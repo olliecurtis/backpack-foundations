@@ -42,8 +42,21 @@ jobs:
         run: |
           git config --local user.email "200633985+skyscanner-backpack-bot[bot]@users.noreply.github.com"
           git config --local user.name "ollies-test-bot[bot]"
-          npm run lerna:version -- $RELEASE_VERSION --yes
-          npm run lerna:publish -- bump from-git --yes --skip-git
+          npm run lerna:version -- $RELEASE_VERSION --no-push --yes
         env: 
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           RELEASE_VERSION: ${{ github.event.release.tag_name }}
+      
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+
+      - name: Release Foundations
+        if: ${{ github.event_name == 'release' }}
+        run: |
+          git config --local user.email "200633985+skyscanner-backpack-bot[bot]@users.noreply.github.com"
+          git config --local user.name "ollies-test-bot[bot]"
+          npm run lerna:publish -- bump from-git --yes --skip-git
+          env: 
+            NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+            RELEASE_VERSION: ${{ github.event.release.tag_name }}
