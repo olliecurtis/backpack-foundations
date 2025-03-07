@@ -43,7 +43,7 @@ jobs:
           git config --local user.email "200633985+skyscanner-backpack-bot[bot]@users.noreply.github.com"
           git config --local user.name "ollies-test-bot[bot]"
           git fetch --tags -q
-          npm run lerna:version -- $RELEASE_VERSION --yes
+          npm run lerna:version -- $RELEASE_VERSION --no-git-tag-version --yes
         env: 
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           RELEASE_VERSION: ${{ github.event.release.tag_name }}
