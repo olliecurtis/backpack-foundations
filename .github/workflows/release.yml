@@ -57,6 +57,14 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           RELEASE_VERSION: ${{ github.event.release.tag_name }}
 
+      - name: Commit version changes
+        if: ${{ github.event_name == 'release' }}
+        run: |
+          git add .
+          git commit -m "chore: update package versions to $RELEASE_VERSION [skip ci]" || echo "No changes to commit"
+        env:
+          RELEASE_VERSION: ${{ github.event.release.tag_name }}
+
       - name: Publish Packages
         if: ${{ github.event_name == 'release' }}
         run: |
