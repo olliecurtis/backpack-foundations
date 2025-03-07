@@ -22,6 +22,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           token: ${{ steps.app-token.outputs.token }}
+          fetch-depth: 0
 
       - uses: actions/setup-node@v4
         with:
@@ -37,28 +38,24 @@ jobs:
       - name: Confirm the build hasn't changed any files
         run: ./check-pristine-state package-lock.json
 
-      - name: Release Foundations
+      - name: Configure Git
         if: ${{ github.event_name == 'release' }}
         run: |
           git config --local user.email "200633985+skyscanner-backpack-bot[bot]@users.noreply.github.com"
           git config --local user.name "ollies-test-bot[bot]"
           git fetch --tags -q
+
+      - name: Version Packages
+        if: ${{ github.event_name == 'release' }}
+        run: |
           npm run lerna:version -- $RELEASE_VERSION --no-git-tag-version --yes
         env: 
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           RELEASE_VERSION: ${{ github.event.release.tag_name }}
-      
-      - uses: actions/checkout@v4
-        with:
-          token: ${{ steps.app-token.outputs.token }}
 
-      - name: Release Foundations
+      - name: Publish Packages
         if: ${{ github.event_name == 'release' }}
         run: |
-          git config --local user.email "200633985+skyscanner-backpack-bot[bot]@users.noreply.github.com"
-          git config --local user.name "ollies-test-bot[bot]"
-          git fetch --tags -q
-          npm run lerna:publish -- bump from-git --yes --skip-git
-          env: 
-            NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-            RELEASE_VERSION: ${{ github.event.release.tag_name }}
+          npm run lerna:publish -- from-package --yes
+        env: 
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
