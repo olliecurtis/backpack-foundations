@@ -41,7 +41,7 @@ jobs:
       - name: Configure Git and checkout default branch
         if: ${{ github.event_name == 'release' }}
         run: |
-          git config --local user.email "200633985+skyscanner-backpack-bot[bot]@users.noreply.github.com"
+          git config --local user.email "200633985+ollies-test-bot[bot]@users.noreply.github.com"
           git config --local user.name "ollies-test-bot[bot]"
           git fetch --tags -q
           # Get default branch name and check it out to avoid detached HEAD
@@ -60,7 +60,7 @@ jobs:
       - name: Commit version changes
         if: ${{ github.event_name == 'release' }}
         run: |
-          git config --local user.email "200633985+skyscanner-backpack-bot[bot]@users.noreply.github.com"
+          git config --local user.email "200633985+ollies-test-bot[bot]@users.noreply.github.com"
           git config --local user.name "ollies-test-bot[bot]"
           git add .
           git commit -m "chore: update package versions to $RELEASE_VERSION [skip ci]" || echo "No changes to commit"
