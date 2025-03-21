@@ -10,5 +10,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - if: ${{ contains(fromJson('["major", "minor", "patch", "skip-changelog"]'), github.event.label.name) == true }}
-        run: exit 0
+      - name: Check added labels
+        if: ${{ contains(github.event.pull_request.labels.*.name, 'major') == false && contains(github.event.pull_request.labels.*.name, 'minor') == false && contains(github.event.pull_request.labels.*.name, 'patch') == false && contains(github.event.pull_request.labels.*.name, 'skip-changelog') == false }}
+        run: exit 1
